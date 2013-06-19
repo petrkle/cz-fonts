@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<Product Id='f10f208e-aa19-4186-8d80-214929e2b007'
+		Name='$(var.ProductName) $(var.ProductVersion)'
+		Language='1033' 
+		Version='$(var.ProductVersion)'
+		Manufacturer='$(var.ProductName)'
+		UpgradeCode='6300fb1e-9b29-4e51-8036-63b741de5e91'>
+
+	<Package Description='$(var.ProductName) $(var.ProductVersion)'
+		Comments='$(var.ProductName) $(var.ProductVersion)'
+		Manufacturer='$(var.ProductName)'
+		InstallerVersion='200'
+		Compressed='yes' 
+		Keywords='soubory'
+		InstallScope='perMachine' />
+
+	<InstallExecuteSequence>
+		<RemoveExistingProducts After="InstallInitialize" />
+		<Custom Action="SetARPINSTALLLOCATION" After="InstallValidate" />
+	</InstallExecuteSequence>
+
+	<Upgrade Id='6300fb1e-9b29-4e51-8036-63b741de5e91'>
+		<UpgradeVersion OnlyDetect='no'
+			Property='PREVIOUSFOUND'
+			Minimum='12.11.19'
+			IncludeMinimum='yes'
+			Maximum='$(var.ProductVersion)'
+			IncludeMaximum='no' />
+	</Upgrade>
+
+	<?include minimalui.wxs ?>
+
+  <UIRef Id="WixUI_Common" />
+
+	<WixVariable Id="WixUIBannerBmp" Value="img\top.jpg" />
+	<WixVariable Id="WixUIDialogBmp" Value="img\bg.jpg" />
+	<Icon Id="ProductIcon" SourceFile="img\app.ico"/>
+	<Property Id="ARPPRODUCTICON" Value="ProductIcon" />
+	<Property Id='ARPCOMMENTS' Value="$(var.ProductName) $(var.ProductVersion)" />
+	<Property Id='ARPCONTACT' Value="$(var.ProductName)" />
+	<Property Id='ARPHELPLINK' Value="$(var.ProductName)" />
+	<Property Id='ARPURLUPDATEINFO' Value="$(var.ProductName)" />
+	<Property Id='ARPHELPTELEPHONE' Value="+000 123 456 789" />
+	<Property Id='ARPREADME' Value="$(var.ProductName)" />
+	<Property Id='ARPURLINFOABOUT' Value="$(var.ProductName)" />
+
+	<Feature Id='main' Title='fonty' Description='$(var.ProductName) $(var.ProductVersion)' Level='1'>
+		<?include components.wxs ?>
+	</Feature>
+
+	<Media Id='1' Cabinet='fonts.cab' EmbedCab='yes' CompressionLevel='high' />
+
+	<Directory Id='TARGETDIR' Name='SourceDir'>
+				<?include files.wxs ?>
+	</Directory>
+
+	<CustomAction Id="SetARPINSTALLLOCATION" Property="ARPINSTALLLOCATION" Value="[FontsFolder]" />
+	</Product>
+</Wix>
