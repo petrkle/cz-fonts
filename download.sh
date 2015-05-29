@@ -1,4 +1,6 @@
-#!/usr/bin/bash
+#!/bin/bash
+
+set -e
 
 TMP=tmp
 FONTS=FontsFolder
